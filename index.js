@@ -1,3 +1,35 @@
+const mainDiv = document.querySelector("main");
+const userInput = document.getElementById("country");
+const form = document.querySelector("form");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  weatherApp(userInput.value, "metric");
+  userInput.textContent = "";
+});
+
+//test
+weatherApp("budapest", "metric");
+
+// main function for the weather app
+// gets data then calls render to display to page
+async function weatherApp(cityName, units) {
+  try {
+    // get the weaher data
+    const weatherData = await getWeatherData(cityName, units);
+    // make a weather data object
+    const weatherObj = await createWeatherObject(weatherData, units);
+    // get country flag
+    const countryData = await getCountryData(weatherObj.country);
+    const countryFlagURL = countryData.flag;
+
+    //return results
+    console.log(weatherObj);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function createWeatherObject(weatherData, units) {
   const _windDirectionLookup = (degree) => {
     let array = [
