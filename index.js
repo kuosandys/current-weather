@@ -56,6 +56,8 @@ async function createWeatherObject(weatherData, units) {
   const country = weatherData.sys.country;
   // description in lower case
   const description = weatherData.weather[0].description;
+  // icon
+  const iconURL = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
   // temp
   const temp = `${Math.round(weatherData.main.temp)} ${
     units == "metric" ? "°C" : "°F"
@@ -92,6 +94,7 @@ async function createWeatherObject(weatherData, units) {
     city,
     country,
     description,
+    iconURL,
     temp,
     feelTemp,
     maxTemp,
@@ -160,7 +163,9 @@ function renderWeatherData(weatherObject, countryFlagURL) {
   descriptionDiv.id = "wa-description";
   let description = document.createElement("p");
   description.textContent = weatherObject.description;
-  descriptionDiv.appendChild(description);
+  let weatherIcon = document.createElement("img");
+  weatherIcon.src = weatherObject.iconURL;
+  descriptionDiv.append(description, weatherIcon);
 
   // temperature
   let temperatureDiv = document.createElement("div");
