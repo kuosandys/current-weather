@@ -4,31 +4,31 @@ const form = document.querySelector("form");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  weatherApp(userInput.value, "metric");
+  weatherApp(userInput.value);
   userInput.textContent = "";
 });
 
 // main function for the weather app
 // gets data then calls render to display to page
-async function weatherApp(cityName, units) {
+async function weatherApp(cityName) {
   try {
     // get the weaher data
-    const weatherData = await getWeatherData(cityName, units);
+    const weatherData = await getWeatherData(cityName);
     // make a weather data object
-    const weatherObj = await createWeatherObject(weatherData, units);
+    const weatherObj = await createWeatherObject(weatherData);
     // get country flag
     const countryData = await getCountryData(weatherObj.country);
     const countryFlagURL = countryData.flag;
 
     //return results
-    renderWeatherData(weatherObj, countryFlagURL);
+    renderWeatherData(weatherObj, "metric", countryFlagURL);
   } catch (e) {
-    // console.log(e);
-    console.log("couldn't find weather data for that city...");
+    console.log(e);
+    // console.log("couldn't find weather data for that city...");
   }
 }
 
-async function createWeatherObject(weatherData, units) {
+async function createWeatherObject(weatherData) {
   const _windDirectionLookup = (degree) => {
     let array = [
       "N",
@@ -58,27 +58,33 @@ async function createWeatherObject(weatherData, units) {
   const description = weatherData.weather[0].description;
   // icon
   const iconURL = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
-  // temp
-  const temp = `${Math.round(weatherData.main.temp)} ${
-    units == "metric" ? "°C" : "°F"
-  }`;
-  const feelTemp = `${Math.round(weatherData.main.feels_like)} ${
-    units == "metric" ? "°C" : "°F"
-  }`;
-  const maxTemp = `${Math.round(weatherData.main.temp_max)} ${
-    units == "metric" ? "°C" : "°F"
-  }`;
-  const minTemp = `${Math.round(weatherData.main.temp_min)} ${
-    units == "metric" ? "°C" : "°F"
-  }`;
+
+  // temp and windspeed in metric
+  const metric = {
+    temp: `${Math.round(weatherData.main.temp - 273.15)}°C`,
+    feelTemp: `${Math.round(weatherData.main.feels_like - 273.15)}°C`,
+    maxTemp: `${Math.round(weatherData.main.temp_max - 273.15)}°C`,
+    minTemp: `${Math.round(weatherData.main.temp_min - 273.15)}°C`,
+    windSpeed: `${Math.round(weatherData.wind.speed * 3.6)}km/hr`,
+  };
+
+  const imperial = {
+    temp: `${Math.round((weatherData.main.temp - 273.15) * (9 / 5) + 32)}°F`,
+    feelTemp: `${Math.round(
+      (weatherData.main.feels_like - 273.15) * (9 / 5) + 32
+    )}°F`,
+    maxTemp: `${Math.round(
+      (weatherData.main.temp_max - 273.15) * (9 / 5) + 32
+    )}°F`,
+    minTemp: `${Math.round(
+      (weatherData.main.temp_min - 273.15) * (9 / 5) + 32
+    )}°F`,
+    windSpeed: `${Math.round(weatherData.wind.speed * 2.237)}mph`,
+  };
+
   // % humidity
   const humidity = `${weatherData.main.humidity}%`;
-  // m/s
-  const windSpeed = `${
-    units == "metric"
-      ? Math.round(weatherData.wind.speed * 3.6) + "km/h"
-      : Math.round(weatherData.wind.speed) + "miles/hr"
-  }`;
+
   const windDirection = _windDirectionLookup(weatherData.wind.deg);
 
   const _getDateTime = (unixTime) => {
@@ -95,12 +101,9 @@ async function createWeatherObject(weatherData, units) {
     country,
     description,
     iconURL,
-    temp,
-    feelTemp,
-    maxTemp,
-    minTemp,
+    metric,
+    imperial,
     humidity,
-    windSpeed,
     windDirection,
     currentDateTime,
     sunrise,
@@ -120,9 +123,9 @@ async function getCountryData(countryCode) {
 }
 
 // gets the weather data in metric units by city name
-async function getWeatherData(cityName, units) {
+async function getWeatherData(cityName) {
   const response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=8bc34d5ff8628186b68c3c4af2106ea0&units=${units}`
+    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=8bc34d5ff8628186b68c3c4af2106ea0`
   );
   if (response.status == 200) {
     const result = await response.json();
@@ -133,7 +136,7 @@ async function getWeatherData(cityName, units) {
 }
 
 // renders the weather data on the page
-function renderWeatherData(weatherObject, countryFlagURL) {
+function renderWeatherData(weatherObject, units, countryFlagURL) {
   if (document.getElementById("weather-app")) {
     document.getElementById("weather-app").remove();
   }
@@ -170,22 +173,67 @@ function renderWeatherData(weatherObject, countryFlagURL) {
   // temperature
   let temperatureDiv = document.createElement("div");
   temperatureDiv.id = "wa-temperature-info";
-  let currentTemp = document.createElement("p");
-  currentTemp.textContent = weatherObject.temp;
-  let feelTemp = document.createElement("p");
-  feelTemp.textContent = `feels like: ${weatherObject.feelTemp}`;
-  let maxTemp = document.createElement("p");
-  maxTemp.textContent = `max: ${weatherObject.maxTemp}`;
-  let minTemp = document.createElement("p");
-  minTemp.textContent = `min: ${weatherObject.minTemp}`;
-  temperatureDiv.append(currentTemp, feelTemp, maxTemp, minTemp);
+
+  // metric
+  let currentTempM = document.createElement("p");
+  currentTempM.textContent = weatherObject.metric.temp;
+  currentTempM.classList.add("metric-element");
+
+  let feelTempM = document.createElement("p");
+  feelTempM.textContent = `feels like: ${weatherObject.metric.feelTemp}`;
+  feelTempM.classList.add("metric-element");
+
+  let maxTempM = document.createElement("p");
+  maxTempM.textContent = `max: ${weatherObject.metric.maxTemp}`;
+  maxTempM.classList.add("metric-element");
+
+  let minTempM = document.createElement("p");
+  minTempM.textContent = `min: ${weatherObject.metric.minTemp}`;
+  minTempM.classList.add("metric-element");
+
+  // imperial
+  let currentTempI = document.createElement("p");
+  currentTempI.textContent = weatherObject.imperial.temp;
+  currentTempI.classList.add("imperial-element");
+
+  let feelTempI = document.createElement("p");
+  feelTempI.textContent = `feels like: ${weatherObject.imperial.feelTemp}`;
+  feelTempI.classList.add("imperial-element");
+
+  let maxTempI = document.createElement("p");
+  maxTempI.textContent = `max: ${weatherObject.imperial.maxTemp}`;
+  maxTempI.classList.add("imperial-element");
+
+  let minTempI = document.createElement("p");
+  minTempI.textContent = `min: ${weatherObject.imperial.minTemp}`;
+  minTempI.classList.add("imperial-element");
+
+  temperatureDiv.append(
+    currentTempM,
+    currentTempI,
+    feelTempM,
+    feelTempI,
+    maxTempM,
+    maxTempI,
+    minTempM,
+    minTempI
+  );
 
   // wind
   let windDiv = document.createElement("div");
   windDiv.id = "wa-wind";
-  let windSpeed = document.createElement("p");
-  windSpeed.textContent = `${weatherObject.windDirection} ${weatherObject.windSpeed}`;
-  windDiv.appendChild(windSpeed);
+
+  // metric
+  let windSpeedM = document.createElement("p");
+  windSpeedM.textContent = `${weatherObject.windDirection} ${weatherObject.metric.windSpeed}`;
+  windSpeedM.classList.add("metric-element");
+
+  // imperial
+  let windSpeedI = document.createElement("p");
+  windSpeedI.textContent = `${weatherObject.windDirection} ${weatherObject.imperial.windSpeed}`;
+  windSpeedI.classList.add("imperial-element");
+
+  windDiv.append(windSpeedM, windSpeedI);
 
   // humidity
   let humidityDiv = document.createElement("div");
@@ -215,14 +263,21 @@ function renderWeatherData(weatherObject, countryFlagURL) {
 
   // append to main
   mainDiv.appendChild(weatherDiv);
-  //
+
+  // select elements based on unit specified and hide/show
+  let selectedElements = Array.from(
+    document.getElementsByClassName(`${units}-element`)
+  );
+  selectedElements.forEach((element) => {
+    element.classList.add("show-element");
+  });
 }
 
 // returns formatted time in format: HH:MM:SS in local time
 function formatTime(datetime) {
-  let formattedTime = `${("0" + datetime.getUTCHours()).slice(
-    -2
-  )}:${datetime.getMinutes()}`;
+  let formattedTime = `${("0" + datetime.getUTCHours()).slice(-2)}:${(
+    "0" + datetime.getMinutes()
+  ).slice(-2)}`;
   return formattedTime;
 }
 

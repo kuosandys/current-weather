@@ -1,0 +1,45 @@
+$font-stack: Arial, sans-serif;
+
+html {
+  font-family: $font-stack;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+  line-height: 1.2;
+}
+
+body {
+  margin: 0;
+  -webkit-text-size-adjust: none;
+}
+
+// Reset button style
+button {
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+// Reset input style;
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.metric-element {
+  display: none;
+}
+
+.imperial-element {
+  display: none;
+}
+
+.show-element {
+  display: initial;
+}
