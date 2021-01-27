@@ -59,6 +59,7 @@ form input[type=text] {
   border-radius: 0;
   appearance: none;
   background: transparent;
+  margin: auto 0;
   cursor: text;
 }
 form input:active, form input:focus,
@@ -68,6 +69,7 @@ form input[type=text]:focus {
 }
 form button {
   background-color: transparent;
+  margin: 0;
 }
 form button i {
   text-shadow: none;

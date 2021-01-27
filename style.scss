@@ -80,6 +80,7 @@ form {
     border-radius: 0;
     appearance: none;
     background: transparent;
+    margin: auto 0;
     cursor: text;
     &:active,
     &:focus {
@@ -88,6 +89,7 @@ form {
   }
   button {
     background-color: transparent;
+    margin: 0;
 
     i {
       text-shadow: none;
