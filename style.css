@@ -11,6 +11,7 @@ html {
 }
 
 body {
+  margin: 0;
   position: relative;
   -webkit-text-size-adjust: none;
   display: flex;
@@ -32,17 +33,6 @@ button:active, button:focus {
   outline: none;
 }
 
-input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: transparent;
-  cursor: text;
-}
-input:active, input:focus {
-  outline: none;
-}
-
 p {
   color: #818388;
 }
@@ -55,13 +45,26 @@ form * {
   color: #f7f7f8;
   text-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
-form input {
+form input,
+form input[type=text] {
   appearance: none;
   border: none;
   border-bottom: 1px solid #e2e6e9;
   padding-left: 8px;
   color: #f7f7f8;
   max-width: 200px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  appearance: none;
+  background: transparent;
+  cursor: text;
+}
+form input:active, form input:focus,
+form input[type=text]:active,
+form input[type=text]:focus {
+  outline: none;
 }
 form button {
   background-color: transparent;
@@ -197,19 +200,19 @@ main {
   background: #000047 linear-gradient(180deg, #0e0e39 50%, #6c4983 100%);
 }
 
-@media screen and (max-width: 400px) {
+@media only screen and (max-width: 600px) {
   body {
-    padding: 0;
-    padding-top: 20px;
     justify-content: flex-start;
   }
-  body form {
+
+  form {
+    margin-top: 40px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     width: 300px;
   }
-  body form input {
+  form input {
     width: 150px;
   }
 }

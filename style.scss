@@ -30,6 +30,7 @@ html {
 }
 
 body {
+  margin: 0;
   position: relative;
   -webkit-text-size-adjust: none;
   display: flex;
@@ -53,19 +54,6 @@ button {
   }
 }
 
-// Reset input style;
-input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: transparent;
-  cursor: text;
-  &:active,
-  &:focus {
-    outline: none;
-  }
-}
-
 p {
   color: $neutral-3;
 }
@@ -78,13 +66,25 @@ form {
     color: $neutral-6;
     text-shadow: 0 0 20px hsla(0, 0%, 0%, 0.2);
   }
-  input {
+  input,
+  input[type="text"] {
     appearance: none;
     border: none;
     border-bottom: 1px solid $neutral-5;
     padding-left: 8px;
     color: $neutral-6;
     max-width: 200px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    appearance: none;
+    background: transparent;
+    cursor: text;
+    &:active,
+    &:focus {
+      outline: none;
+    }
   }
   button {
     background-color: transparent;
@@ -239,21 +239,20 @@ main {
     linear-gradient(180deg, hsl(240, 60%, 14%) 50%, hsl(276, 28%, 40%) 100%);
 }
 
-@media screen and (max-width: 400px) {
+@media only screen and (max-width: 600px) {
   body {
-    padding: 0;
-    padding-top: 20px;
     justify-content: flex-start;
+  }
 
-    form {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      width: 300px;
+  form {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 300px;
 
-      input {
-        width: 150px;
-      }
+    input {
+      width: 150px;
     }
   }
 }
