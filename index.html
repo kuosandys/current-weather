@@ -3,13 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,600;1,400;1,600&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
-    <title>Document</title>
+    <script
+      src="https://kit.fontawesome.com/3b23795287.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Current Weather</title>
   </head>
   <body>
     <form>
-      <input type="text" id="country" required />
-      <button type="submit">Search</button>
+      <span>Current weather in </span
+      ><input
+        type="text"
+        id="country"
+        autocomplete="off"
+        required
+        placeholder="London"
+      />
+      <button type="submit"><i class="fas fa-search"></i></button>
     </form>
     <main></main>
     <script src="index.js"></script>

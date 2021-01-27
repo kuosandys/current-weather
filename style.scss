@@ -1,4 +1,22 @@
-$font-stack: Arial, sans-serif;
+$font-stack: "Source Sans Pro", Arial, sans-serif;
+$font-size-0: 12px;
+$font-size-1: 14px;
+$font-size-2: 16px;
+$font-size-3: 20px;
+$font-size-4: 24px;
+$font-size-5: 30px;
+$font-size-6: 36px;
+$font-size-7: 48px;
+
+$neutral-6: hsl(220, 7%, 97%);
+$neutral-5: hsl(210, 14%, 90%);
+$neutral-4: hsl(220, 6%, 72%);
+$neutral-3: hsl(223, 3%, 52%);
+$neutral-2: hsl(210, 5%, 33%);
+$neutral-1: hsl(206, 6%, 23%);
+$neutral-0: hsl(180, 1%, 13%);
+
+$border-radius: 10px;
 
 html {
   font-family: $font-stack;
@@ -8,12 +26,16 @@ html {
 
 * {
   box-sizing: border-box;
+  font-size: $font-size-2;
   line-height: 1.2;
 }
 
 body {
-  margin: 0;
+  margin: 30px;
   -webkit-text-size-adjust: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 // Reset button style
@@ -23,6 +45,10 @@ button {
   -moz-appearance: none;
   appearance: none;
   cursor: pointer;
+  &:active,
+  &:focus {
+    outline: none;
+  }
 }
 
 // Reset input style;
@@ -30,8 +56,138 @@ input {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  background-color: transparent;
+  cursor: text;
+  &:active,
+  &:focus {
+    outline: none;
+
+    &::placeholder {
+      color: transparent;
+    }
+  }
 }
 
+form {
+  margin: 20px;
+  * {
+    font-size: $font-size-3;
+  }
+  input {
+    appearance: none;
+    border: none;
+    border-bottom: 1px solid $neutral-1;
+    padding-left: 5px;
+  }
+  button {
+    background-color: transparent;
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#weather-app {
+  margin: 10px;
+  border: 1px solid $neutral-1;
+  border-radius: $border-radius;
+  position: relative;
+  width: 300px;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+
+  div:nth-child(-n + 3) {
+    // border: 1px solid yellow;
+    order: -3;
+    flex: 1 0 100%;
+  }
+
+  #wa-location-info {
+    order: -3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: $font-size-1;
+    * {
+      margin: $font-size-0/6;
+    }
+
+    p:nth-child(2) {
+      font-size: $font-size-3;
+      letter-spacing: -0.6px;
+    }
+  }
+
+  #wa-description {
+    order: -1;
+    padding: $font-size-0/2 0 $font-size-6 0;
+    img {
+      margin: -$font-size-3;
+      height: 110px;
+      width: 110px;
+    }
+    * {
+      margin: 0 auto;
+    }
+    p {
+      font-size: $font-size-2;
+    }
+  }
+
+  #wa-temperature-info {
+    order: -2;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: $font-size-0;
+    p {
+      font-size: $font-size-3;
+      margin: 0;
+    }
+    p:nth-child(3),
+    p:nth-child(4) {
+      font-size: $font-size-7;
+      font-weight: 500;
+      padding: 0 15px 5px 15px;
+    }
+  }
+
+  div:nth-child(n + 4) {
+    flex: 1 0 33.33%;
+    flex-wrap: nowrap;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: $font-size-0 0;
+
+    line-height: 1;
+    * {
+      margin: 5px 0;
+    }
+  }
+
+  #wa-time {
+    position: absolute;
+    bottom: -$font-size-1;
+    right: 5px;
+    height: $font-size-1;
+    p {
+      font-size: $font-size-0;
+      font-style: italic;
+    }
+  }
+}
+
+// Toggle metric and imperial elements' display
 .metric-element {
   display: none;
 }

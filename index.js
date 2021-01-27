@@ -13,13 +13,18 @@ async function weatherApp(cityName) {
   try {
     const data = await getWeatherData(cityName);
     const weatherObj = createWeatherObject(data);
-    renderWeatherData(weatherObj, "metric");
+    renderWeatherData(weatherObj, "imperial");
+    setWindowTitle(cityName);
   } catch (e) {
     console.log(e);
+    setWindowTitle();
     // displayError()
     // console.log("couldn't find weather data for that city...");
   }
 }
+
+//test
+weatherApp("london");
 
 // Create a weather data object with only the data we need
 function createWeatherObject(weatherData) {
@@ -174,11 +179,11 @@ function renderWeatherData(weatherObject, units) {
   currentTempM.classList.add("metric-element");
 
   let maxTempM = document.createElement("p");
-  maxTempM.textContent = `low ${weatherObject.metric.maxTemp}`;
+  maxTempM.textContent = `${weatherObject.metric.maxTemp}`;
   maxTempM.classList.add("metric-element");
 
   let minTempM = document.createElement("p");
-  minTempM.textContent = `low ${weatherObject.metric.minTemp}`;
+  minTempM.textContent = `${weatherObject.metric.minTemp}`;
   minTempM.classList.add("metric-element");
 
   // imperial
@@ -187,11 +192,11 @@ function renderWeatherData(weatherObject, units) {
   currentTempI.classList.add("imperial-element");
 
   let maxTempI = document.createElement("p");
-  maxTempI.textContent = `high ${weatherObject.imperial.maxTemp}`;
+  maxTempI.textContent = `${weatherObject.imperial.maxTemp}`;
   maxTempI.classList.add("imperial-element");
 
   let minTempI = document.createElement("p");
-  minTempI.textContent = `high ${weatherObject.imperial.minTemp}`;
+  minTempI.textContent = `${weatherObject.imperial.minTemp}`;
   minTempI.classList.add("imperial-element");
 
   temperatureDiv.append(
@@ -206,6 +211,7 @@ function renderWeatherData(weatherObject, units) {
   // wind
   let windDiv = document.createElement("div");
   windDiv.id = "wa-wind";
+  windDiv.innerHTML = `<i class="fas fa-wind"></i>`;
 
   // metric
   let windSpeedM = document.createElement("p");
@@ -222,22 +228,24 @@ function renderWeatherData(weatherObject, units) {
   // humidity
   let humidityDiv = document.createElement("div");
   humidityDiv.id = "wa-humidity";
+  humidityDiv.innerHTML = `<i class="fas fa-tint"></i>`;
   let humidity = document.createElement("p");
-  humidity.textContent = `humidity: ${weatherObject.humidity}`;
+  humidity.textContent = `${weatherObject.humidity}`;
   humidityDiv.appendChild(humidity);
 
   // feel temp div
   let feelDiv = document.createElement("div");
   feelDiv.id = "wa-feeltemp";
+  feelDiv.innerHTML = `<i class="fas fa-snowman"></i>`;
 
   // metric
   let feelTempM = document.createElement("p");
-  feelTempM.textContent = `feels like: ${weatherObject.metric.feelTemp}`;
+  feelTempM.textContent = weatherObject.metric.feelTemp;
   feelTempM.classList.add("metric-element");
 
   // imperial
   let feelTempI = document.createElement("p");
-  feelTempI.textContent = `feels like: ${weatherObject.imperial.feelTemp}`;
+  feelTempI.textContent = weatherObject.imperial.feelTemp;
   feelTempI.classList.add("imperial-element");
 
   feelDiv.append(feelTempM, feelTempI);
@@ -246,7 +254,7 @@ function renderWeatherData(weatherObject, units) {
   let timeDiv = document.createElement("div");
   timeDiv.id = "wa-time";
   let currentTime = document.createElement("p");
-  currentTime.textContent = `last updated: ${formatTime(
+  currentTime.textContent = `last updated at ${formatTime(
     weatherObject.currentDateTime
   )}`;
   timeDiv.appendChild(currentTime);
@@ -282,10 +290,18 @@ function formatTime(datetime) {
   return formattedTime;
 }
 
-// Get date in format Wed, 23 JAN
+// Get date in format Wed 23 JAN
 function formatDate(datetime) {
   // Wed Jan 23 2019
   let array = datetime.toDateString().split(" ");
-  let formattedDate = `${array[0]}, ${array[2]} ${array[1]}`;
+  let formattedDate = `${array[0].toUpperCase()} ${
+    array[2]
+  } ${array[1].toUpperCase()}`;
   return formattedDate;
+}
+
+function setWindowTitle(cityName) {
+  window.document.title = cityName
+    ? `Current Weather in ${cityName.toUpperCase()}`
+    : `Current Weather`;
 }

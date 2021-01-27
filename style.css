@@ -1,17 +1,21 @@
 html {
-  font-family: Arial, sans-serif;
+  font-family: "Source Sans Pro", Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
 
 * {
   box-sizing: border-box;
+  font-size: 16px;
   line-height: 1.2;
 }
 
 body {
-  margin: 0;
+  margin: 30px;
   -webkit-text-size-adjust: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 button {
@@ -21,11 +25,131 @@ button {
   appearance: none;
   cursor: pointer;
 }
+button:active, button:focus {
+  outline: none;
+}
 
 input {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  background-color: transparent;
+  cursor: text;
+}
+input:active, input:focus {
+  outline: none;
+}
+input:active::placeholder, input:focus::placeholder {
+  color: transparent;
+}
+
+form {
+  margin: 20px;
+}
+form * {
+  font-size: 20px;
+}
+form input {
+  appearance: none;
+  border: none;
+  border-bottom: 1px solid #373b3e;
+  padding-left: 5px;
+}
+form button {
+  background-color: transparent;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#weather-app {
+  margin: 10px;
+  border: 1px solid #373b3e;
+  border-radius: 10px;
+  position: relative;
+  width: 300px;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+}
+#weather-app div:nth-child(-n+3) {
+  order: -3;
+  flex: 1 0 100%;
+}
+#weather-app #wa-location-info {
+  order: -3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 14px;
+}
+#weather-app #wa-location-info * {
+  margin: 2px;
+}
+#weather-app #wa-location-info p:nth-child(2) {
+  font-size: 20px;
+  letter-spacing: -0.6px;
+}
+#weather-app #wa-description {
+  order: -1;
+  padding: 6px 0 36px 0;
+}
+#weather-app #wa-description img {
+  margin: -20px;
+  height: 110px;
+  width: 110px;
+}
+#weather-app #wa-description * {
+  margin: 0 auto;
+}
+#weather-app #wa-description p {
+  font-size: 16px;
+}
+#weather-app #wa-temperature-info {
+  order: -2;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+}
+#weather-app #wa-temperature-info p {
+  font-size: 20px;
+  margin: 0;
+}
+#weather-app #wa-temperature-info p:nth-child(3),
+#weather-app #wa-temperature-info p:nth-child(4) {
+  font-size: 48px;
+  font-weight: 500;
+  padding: 0 15px 5px 15px;
+}
+#weather-app div:nth-child(n+4) {
+  flex: 1 0 33.33%;
+  flex-wrap: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 0;
+  line-height: 1;
+}
+#weather-app div:nth-child(n+4) * {
+  margin: 5px 0;
+}
+#weather-app #wa-time {
+  position: absolute;
+  bottom: -14px;
+  right: 5px;
+  height: 14px;
+}
+#weather-app #wa-time p {
+  font-size: 12px;
+  font-style: italic;
 }
 
 .metric-element {
