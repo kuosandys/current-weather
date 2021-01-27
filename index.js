@@ -1,5 +1,5 @@
 const mainDiv = document.querySelector("main");
-const userInput = document.getElementById("country");
+const userInput = document.getElementById("city");
 const form = document.querySelector("form");
 
 form.addEventListener("submit", (e) => {
@@ -13,7 +13,7 @@ async function weatherApp(cityName) {
   try {
     const data = await getWeatherData(cityName);
     const weatherObj = createWeatherObject(data);
-    renderWeatherData(weatherObj, "imperial");
+    renderWeatherData(weatherObj, "metric");
     setWindowTitle(cityName);
   } catch (e) {
     console.log(e);
@@ -280,9 +280,26 @@ function renderWeatherData(weatherObject, units) {
   selectedElements.forEach((element) => {
     element.classList.add("show-element");
   });
+
+  // set background theme
+  let sunriseHour = weatherObject.sunrise.getUTCHours();
+  let sunsetHour = weatherObject.sunset.getUTCHours();
+  let currentHour = weatherObject.currentDateTime.getUTCHours();
+  document.body.className = "";
+  if (currentHour < sunriseHour) {
+    document.body.classList.add("night");
+  } else if (currentHour < 11) {
+    document.body.classList.add("morning");
+  } else if (currentHour < 14) {
+    document.body.classList.add("noon");
+  } else if (currentHour < sunsetHour) {
+    document.body.classList.add("afternoon");
+  } else {
+    document.body.classList.add("night");
+  }
 }
 
-// Get formatted time in format: HH:MM:SS
+// Get formatted time in format: HH:MM
 function formatTime(datetime) {
   let formattedTime = `${("0" + datetime.getUTCHours()).slice(-2)}:${(
     "0" + datetime.getMinutes()

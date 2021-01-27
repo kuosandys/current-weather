@@ -15,7 +15,6 @@ $neutral-3: hsl(223, 3%, 52%);
 $neutral-2: hsl(210, 5%, 33%);
 $neutral-1: hsl(206, 6%, 23%);
 $neutral-0: hsl(180, 1%, 13%);
-
 $border-radius: 10px;
 
 html {
@@ -31,11 +30,14 @@ html {
 }
 
 body {
-  margin: 30px;
+  position: relative;
   -webkit-text-size-adjust: none;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  padding-bottom: 15%;
+  height: 100vh;
 }
 
 // Reset button style
@@ -61,26 +63,37 @@ input {
   &:active,
   &:focus {
     outline: none;
-
-    &::placeholder {
-      color: transparent;
-    }
   }
+}
+
+p {
+  color: $neutral-3;
 }
 
 form {
   margin: 20px;
+
   * {
-    font-size: $font-size-3;
+    font-size: $font-size-4;
+    color: $neutral-6;
+    text-shadow: 0 0 20px hsla(0, 0%, 0%, 0.2);
   }
   input {
     appearance: none;
     border: none;
-    border-bottom: 1px solid $neutral-1;
-    padding-left: 5px;
+    border-bottom: 1px solid $neutral-5;
+    padding-left: 8px;
+    color: $neutral-6;
+    max-width: 200px;
   }
   button {
     background-color: transparent;
+
+    i {
+      text-shadow: none;
+      font-size: $font-size-3;
+      color: $neutral-5;
+    }
   }
 }
 
@@ -91,8 +104,7 @@ main {
 }
 
 #weather-app {
-  margin: 10px;
-  border: 1px solid $neutral-1;
+  margin-top: 20px;
   border-radius: $border-radius;
   position: relative;
   width: 300px;
@@ -102,6 +114,11 @@ main {
   align-items: center;
   flex-wrap: wrap;
   text-align: center;
+  background-color: hsla(220, 7%, 97%, 0.5);
+
+  p {
+    color: $neutral-0;
+  }
 
   div:nth-child(-n + 3) {
     // border: 1px solid yellow;
@@ -183,6 +200,7 @@ main {
     p {
       font-size: $font-size-0;
       font-style: italic;
+      color: $neutral-3;
     }
   }
 }
@@ -198,4 +216,44 @@ main {
 
 .show-element {
   display: initial;
+}
+
+// Background classes
+.morning {
+  background: hsl(240, 100%, 14%)
+    linear-gradient(0deg, hsl(29, 50%, 57%) 0%, hsl(204, 40%, 60%) 50%);
+}
+
+.noon {
+  background: hsl(240, 100%, 14%)
+    linear-gradient(0deg, hsl(224, 40%, 70%) 0%, hsl(204, 40%, 60%) 80%);
+}
+
+.afternoon {
+  background: hsl(240, 100%, 14%)
+    linear-gradient(180deg, hsl(240, 60%, 14%) 0%, hsl(204, 40%, 60%) 60%);
+}
+
+.night {
+  background: hsl(240, 100%, 14%)
+    linear-gradient(180deg, hsl(240, 60%, 14%) 50%, hsl(276, 28%, 40%) 100%);
+}
+
+@media screen and (max-width: 400px) {
+  body {
+    padding: 0;
+    padding-top: 20px;
+    justify-content: flex-start;
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 300px;
+
+      input {
+        width: 150px;
+      }
+    }
+  }
 }

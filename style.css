@@ -11,11 +11,14 @@ html {
 }
 
 body {
-  margin: 30px;
+  position: relative;
   -webkit-text-size-adjust: none;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  padding-bottom: 15%;
+  height: 100vh;
 }
 
 button {
@@ -39,24 +42,34 @@ input {
 input:active, input:focus {
   outline: none;
 }
-input:active::placeholder, input:focus::placeholder {
-  color: transparent;
+
+p {
+  color: #818388;
 }
 
 form {
   margin: 20px;
 }
 form * {
-  font-size: 20px;
+  font-size: 24px;
+  color: #f7f7f8;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 form input {
   appearance: none;
   border: none;
-  border-bottom: 1px solid #373b3e;
-  padding-left: 5px;
+  border-bottom: 1px solid #e2e6e9;
+  padding-left: 8px;
+  color: #f7f7f8;
+  max-width: 200px;
 }
 form button {
   background-color: transparent;
+}
+form button i {
+  text-shadow: none;
+  font-size: 20px;
+  color: #e2e6e9;
 }
 
 main {
@@ -66,8 +79,7 @@ main {
 }
 
 #weather-app {
-  margin: 10px;
-  border: 1px solid #373b3e;
+  margin-top: 20px;
   border-radius: 10px;
   position: relative;
   width: 300px;
@@ -77,6 +89,10 @@ main {
   align-items: center;
   flex-wrap: wrap;
   text-align: center;
+  background-color: rgba(247, 247, 248, 0.5);
+}
+#weather-app p {
+  color: #212121;
 }
 #weather-app div:nth-child(-n+3) {
   order: -3;
@@ -150,6 +166,7 @@ main {
 #weather-app #wa-time p {
   font-size: 12px;
   font-style: italic;
+  color: #818388;
 }
 
 .metric-element {
@@ -162,6 +179,39 @@ main {
 
 .show-element {
   display: initial;
+}
+
+.morning {
+  background: #000047 linear-gradient(0deg, #c8905b 0%, #70a1c2 50%);
+}
+
+.noon {
+  background: #000047 linear-gradient(0deg, #94a4d1 0%, #70a1c2 80%);
+}
+
+.afternoon {
+  background: #000047 linear-gradient(180deg, #0e0e39 0%, #70a1c2 60%);
+}
+
+.night {
+  background: #000047 linear-gradient(180deg, #0e0e39 50%, #6c4983 100%);
+}
+
+@media screen and (max-width: 400px) {
+  body {
+    padding: 0;
+    padding-top: 20px;
+    justify-content: flex-start;
+  }
+  body form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 300px;
+  }
+  body form input {
+    width: 150px;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
