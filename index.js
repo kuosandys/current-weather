@@ -8,27 +8,21 @@ form.addEventListener("submit", (e) => {
   userInput.textContent = "";
 });
 
-// main function for the weather app
-// gets data then calls render to display to page
+// Main function: get data then render to page
 async function weatherApp(cityName) {
   try {
-    // get the weaher data
-    const weatherData = await getWeatherData(cityName);
-    // make a weather data object
-    const weatherObj = await createWeatherObject(weatherData);
-    // get country flag
-    const countryData = await getCountryData(weatherObj.country);
-    const countryFlagURL = countryData.flag;
-
-    //return results
-    renderWeatherData(weatherObj, "metric", countryFlagURL);
+    const data = await getWeatherData(cityName);
+    const weatherObj = createWeatherObject(data);
+    renderWeatherData(weatherObj, "metric");
   } catch (e) {
     console.log(e);
+    // displayError()
     // console.log("couldn't find weather data for that city...");
   }
 }
 
-async function createWeatherObject(weatherData) {
+// Create a weather data object with only the data we need
+function createWeatherObject(weatherData) {
   const _windDirectionLookup = (degree) => {
     let array = [
       "N",
@@ -112,63 +106,63 @@ async function createWeatherObject(weatherData) {
 }
 
 // get the country flag from country code from restcountries.eu
-async function getCountryData(countryCode) {
-  const response = await fetch(
-    `https://restcountries.eu/rest/v2/alpha/${countryCode}`
-  );
-  if (response.status == 200) {
-    const data = await response.json();
-    return data;
-  }
-}
+// async function getCountryData(countryCode) {
+//   const response = await fetch(
+//     `https://restcountries.eu/rest/v2/alpha/${countryCode}`
+//   );
+//   if (response.status == 200) {
+//     const data = await response.json();
+//     return data;
+//   }
+// }
 
-// gets the weather data in metric units by city name
+// Get the weather data from OpenWeather by city name
 async function getWeatherData(cityName) {
-  const response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=8bc34d5ff8628186b68c3c4af2106ea0`
-  );
-  if (response.status == 200) {
-    const result = await response.json();
-    return result;
-  } else {
-    return new Error(response.status);
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=8bc34d5ff8628186b68c3c4af2106ea0`
+    );
+    if (response.status == 200) {
+      const result = await response.json();
+      return result;
+    } else {
+      // throw error if response status is not 200
+      throw new Error(response.status);
+    }
+  } catch (error) {
+    // handle other types of errors (e.g. connection error)
+    throw error;
   }
 }
 
-// renders the weather data on the page
-function renderWeatherData(weatherObject, units, countryFlagURL) {
+// Render the weather data on the page
+function renderWeatherData(weatherObject, units) {
   if (document.getElementById("weather-app")) {
     document.getElementById("weather-app").remove();
   }
-  // create a div
+  // Main weather app div
   let weatherDiv = document.createElement("div");
   weatherDiv.id = "weather-app";
 
-  // location: city, country, current time
+  // location: city, country, current date
   let locationDiv = document.createElement("div");
   locationDiv.id = "wa-location-info";
-  let city = document.createElement("p");
-  city.textContent = weatherObject.city;
-  let country = document.createElement("p");
-  country.textContent = weatherObject.country;
-  let flag = document.createElement("img");
+  let cityCountry = document.createElement("p");
+  cityCountry.textContent = `${weatherObject.city}, ${weatherObject.country}`;
+  // let flag = document.createElement("img");
   // flag.src = countryFlagURL;
   let currentDate = document.createElement("p");
   currentDate.textContent = formatDate(weatherObject.currentDateTime);
-  let currentTime = document.createElement("p");
-  currentTime.textContent = `last updated: ${formatTime(
-    weatherObject.currentDateTime
-  )}`;
-  locationDiv.append(city, country, flag, currentDate, currentTime);
+  locationDiv.append(cityCountry, currentDate);
 
-  // weather info
+  // weather icon & description
   let descriptionDiv = document.createElement("div");
   descriptionDiv.id = "wa-description";
   let description = document.createElement("p");
   description.textContent = weatherObject.description;
   let weatherIcon = document.createElement("img");
   weatherIcon.src = weatherObject.iconURL;
-  descriptionDiv.append(description, weatherIcon);
+  descriptionDiv.append(weatherIcon, description);
 
   // temperature
   let temperatureDiv = document.createElement("div");
@@ -179,16 +173,12 @@ function renderWeatherData(weatherObject, units, countryFlagURL) {
   currentTempM.textContent = weatherObject.metric.temp;
   currentTempM.classList.add("metric-element");
 
-  let feelTempM = document.createElement("p");
-  feelTempM.textContent = `feels like: ${weatherObject.metric.feelTemp}`;
-  feelTempM.classList.add("metric-element");
-
   let maxTempM = document.createElement("p");
-  maxTempM.textContent = `max: ${weatherObject.metric.maxTemp}`;
+  maxTempM.textContent = `low ${weatherObject.metric.maxTemp}`;
   maxTempM.classList.add("metric-element");
 
   let minTempM = document.createElement("p");
-  minTempM.textContent = `min: ${weatherObject.metric.minTemp}`;
+  minTempM.textContent = `low ${weatherObject.metric.minTemp}`;
   minTempM.classList.add("metric-element");
 
   // imperial
@@ -196,27 +186,21 @@ function renderWeatherData(weatherObject, units, countryFlagURL) {
   currentTempI.textContent = weatherObject.imperial.temp;
   currentTempI.classList.add("imperial-element");
 
-  let feelTempI = document.createElement("p");
-  feelTempI.textContent = `feels like: ${weatherObject.imperial.feelTemp}`;
-  feelTempI.classList.add("imperial-element");
-
   let maxTempI = document.createElement("p");
-  maxTempI.textContent = `max: ${weatherObject.imperial.maxTemp}`;
+  maxTempI.textContent = `high ${weatherObject.imperial.maxTemp}`;
   maxTempI.classList.add("imperial-element");
 
   let minTempI = document.createElement("p");
-  minTempI.textContent = `min: ${weatherObject.imperial.minTemp}`;
+  minTempI.textContent = `high ${weatherObject.imperial.minTemp}`;
   minTempI.classList.add("imperial-element");
 
   temperatureDiv.append(
+    minTempM,
+    minTempI,
     currentTempM,
     currentTempI,
-    feelTempM,
-    feelTempI,
     maxTempM,
-    maxTempI,
-    minTempM,
-    minTempI
+    maxTempI
   );
 
   // wind
@@ -242,14 +226,30 @@ function renderWeatherData(weatherObject, units, countryFlagURL) {
   humidity.textContent = `humidity: ${weatherObject.humidity}`;
   humidityDiv.appendChild(humidity);
 
-  // sunrise sunset
-  let sunDiv = document.createElement("div");
-  sunDiv.id = "wa-sun";
-  let sunrise = document.createElement("p");
-  sunrise.textContent = `sunrise: ${formatTime(weatherObject.sunrise)}`;
-  let sunset = document.createElement("p");
-  sunset.textContent = `sunset: ${formatTime(weatherObject.sunset)}`;
-  sunDiv.append(sunrise, sunset);
+  // feel temp div
+  let feelDiv = document.createElement("div");
+  feelDiv.id = "wa-feeltemp";
+
+  // metric
+  let feelTempM = document.createElement("p");
+  feelTempM.textContent = `feels like: ${weatherObject.metric.feelTemp}`;
+  feelTempM.classList.add("metric-element");
+
+  // imperial
+  let feelTempI = document.createElement("p");
+  feelTempI.textContent = `feels like: ${weatherObject.imperial.feelTemp}`;
+  feelTempI.classList.add("imperial-element");
+
+  feelDiv.append(feelTempM, feelTempI);
+
+  // "curent time" from data
+  let timeDiv = document.createElement("div");
+  timeDiv.id = "wa-time";
+  let currentTime = document.createElement("p");
+  currentTime.textContent = `last updated: ${formatTime(
+    weatherObject.currentDateTime
+  )}`;
+  timeDiv.appendChild(currentTime);
 
   // append all component divs to weatherDiv
   weatherDiv.append(
@@ -258,10 +258,11 @@ function renderWeatherData(weatherObject, units, countryFlagURL) {
     temperatureDiv,
     humidityDiv,
     windDiv,
-    sunDiv
+    feelDiv,
+    timeDiv
   );
 
-  // append to main
+  // append to main div
   mainDiv.appendChild(weatherDiv);
 
   // select elements based on unit specified and hide/show
@@ -273,7 +274,7 @@ function renderWeatherData(weatherObject, units, countryFlagURL) {
   });
 }
 
-// returns formatted time in format: HH:MM:SS in local time
+// Get formatted time in format: HH:MM:SS
 function formatTime(datetime) {
   let formattedTime = `${("0" + datetime.getUTCHours()).slice(-2)}:${(
     "0" + datetime.getMinutes()
@@ -281,7 +282,7 @@ function formatTime(datetime) {
   return formattedTime;
 }
 
-// returns date in format Wed, 23 JAN 2019
+// Get date in format Wed, 23 JAN
 function formatDate(datetime) {
   // Wed Jan 23 2019
   let array = datetime.toDateString().split(" ");
