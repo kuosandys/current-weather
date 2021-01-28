@@ -215,12 +215,12 @@ function renderWeatherData(weatherObject, units) {
 
   // metric
   let windSpeedM = document.createElement("p");
-  windSpeedM.textContent = `${weatherObject.windDirection} ${weatherObject.metric.windSpeed}`;
+  windSpeedM.textContent = `${weatherObject.metric.windSpeed} ${weatherObject.windDirection}`;
   windSpeedM.classList.add("metric-element");
 
   // imperial
   let windSpeedI = document.createElement("p");
-  windSpeedI.textContent = `${weatherObject.windDirection} ${weatherObject.imperial.windSpeed}`;
+  windSpeedI.textContent = `${weatherObject.imperial.windSpeed} ${weatherObject.windDirection}`;
   windSpeedI.classList.add("imperial-element");
 
   windDiv.append(windSpeedM, windSpeedI);
@@ -236,7 +236,7 @@ function renderWeatherData(weatherObject, units) {
   // feel temp div
   let feelDiv = document.createElement("div");
   feelDiv.id = "wa-feeltemp";
-  feelDiv.innerHTML = `<i class="fas fa-snowman"></i>`;
+  feelDiv.innerHTML = `<i class="fas fa-thermometer-three-quarters"></i>`;
 
   // metric
   let feelTempM = document.createElement("p");

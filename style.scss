@@ -38,7 +38,8 @@ body {
   align-items: center;
   justify-content: center;
   padding-bottom: 15%;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
 }
 
 // Reset button style
@@ -54,8 +55,18 @@ button {
   }
 }
 
-p {
-  color: $neutral-3;
+input {
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  appearance: none;
+  cursor: text;
+  &:active,
+  &:focus {
+    outline: none;
+  }
 }
 
 form {
@@ -66,26 +77,23 @@ form {
     color: $neutral-6;
     text-shadow: 0 0 20px hsla(0, 0%, 0%, 0.2);
   }
-  input,
-  input[type="text"] {
-    appearance: none;
-    border: none;
+  input {
     border-bottom: 1px solid $neutral-5;
     padding-left: 8px;
     color: $neutral-6;
+    width: auto;
     max-width: 200px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    appearance: none;
     background: transparent;
     margin: auto 0;
-    cursor: text;
-    &:active,
-    &:focus {
-      outline: none;
-    }
+
+    // input[type="text"] {
+    //   -webkit-appearance: none;
+    //   -moz-appearance: none;
+    //   -webkit-border-radius: 0;
+    //   border-radius: 0;
+    //   appearance: none;
+    //   border: none;
+    // }
   }
   button {
     background-color: transparent;
@@ -111,9 +119,10 @@ main {
   position: relative;
   width: 300px;
   height: auto;
+  min-height: 433px;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: stretch;
   flex-wrap: wrap;
   text-align: center;
   background-color: hsla(220, 7%, 97%, 0.5);
@@ -136,6 +145,10 @@ main {
     padding: $font-size-6 0 0;
     * {
       margin: $font-size-0/6;
+    }
+
+    p:first-child {
+      color: $neutral-2;
     }
 
     p:nth-child(2) {
@@ -170,12 +183,14 @@ main {
     p {
       font-size: $font-size-4;
       margin: 0;
+      color: $neutral-2;
     }
     p:nth-child(3),
     p:nth-child(4) {
       font-size: $font-size-7;
       font-weight: 500;
       padding: 0 15px 5px 15px;
+      color: $neutral-1;
     }
   }
 
@@ -186,11 +201,15 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: $font-size-0 0 $font-size-6;
+    padding: $font-size-0 0 $font-size-4;
 
     line-height: 1;
     * {
       margin: 5px 0;
+    }
+    i {
+      font-size: $font-size-4;
+      color: $neutral-2;
     }
     p {
       font-size: $font-size-3;
@@ -254,12 +273,25 @@ main {
   form {
     margin-top: 40px;
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
-    justify-content: left;
-    width: 200px;
+    justify-content: flex-start;
+    max-width: 250px;
+    // border: 1px solid purple;
 
+    // * {
+    //   border: 1px solid yellow;
+    // }
+
+    span {
+      width: 100%;
+      text-align: center;
+    }
     input {
-      width: 150px;
+      width: 80%;
+    }
+    button {
+      width: 20%;
     }
   }
 }
