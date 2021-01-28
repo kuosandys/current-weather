@@ -36,8 +36,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding-bottom: 15%;
+  justify-content: flex-start;
+  padding-top: 1%;
   min-height: 100vh;
   height: auto;
 }
@@ -79,7 +79,7 @@ form {
   }
   input {
     border-bottom: 1px solid $neutral-5;
-    padding-left: 8px;
+    padding-left: 10px;
     color: $neutral-6;
     width: auto;
     max-width: 200px;
@@ -104,6 +104,49 @@ form {
       font-size: $font-size-3;
       color: $neutral-5;
     }
+  }
+}
+
+#units-div {
+  height: 30px;
+  width: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  border-radius: 15px;
+  z-index: 1;
+  background-color: hsla(220, 7%, 97%, 0.5);
+  padding: 0 8px;
+  margin: 10px 0;
+
+  span {
+    z-index: 2;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    height: 28px;
+    width: 28px;
+    border-radius: 14px;
+    background-color: $neutral-6;
+    -webkit-transition: 0.15s;
+    transition: 0.15s;
+  }
+  p {
+    z-index: 3;
+    font-size: $font-size-1;
+    color: $neutral-2;
+    padding-right: 1px;
+    font-weight: 600;
+  }
+}
+
+.imperial {
+  span {
+    background-color: blue;
+    transform: translateX(26px);
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
   }
 }
 
@@ -148,7 +191,7 @@ main {
     }
 
     p:first-child {
-      color: $neutral-2;
+      color: $neutral-1;
     }
 
     p:nth-child(2) {
@@ -183,14 +226,14 @@ main {
     p {
       font-size: $font-size-4;
       margin: 0;
-      color: $neutral-2;
+      color: $neutral-1;
     }
     p:nth-child(3),
     p:nth-child(4) {
       font-size: $font-size-7;
       font-weight: 500;
       padding: 0 15px 5px 15px;
-      color: $neutral-1;
+      color: $neutral-0;
     }
   }
 
@@ -230,6 +273,27 @@ main {
   }
 }
 
+#error-div {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0;
+  padding: 20px 20px 20px 30px;
+  background-color: hsla(220, 7%, 97%, 0.5);
+  border-radius: $border-radius;
+  p {
+    font-size: $font-size-3;
+    line-height: 1.6;
+    color: $neutral-0;
+  }
+  i {
+    margin-top: 10px;
+    font-size: $font-size-5;
+    color: $neutral-1;
+  }
+}
+
 // Toggle metric and imperial elements' display
 .metric-element {
   display: none;
@@ -264,10 +328,12 @@ main {
     linear-gradient(180deg, hsl(240, 60%, 14%) 50%, hsl(276, 28%, 40%) 100%);
 }
 
+// for mobile screens
 @media only screen and (max-width: 600px) {
   body {
     justify-content: flex-start;
     align-items: center;
+    padding-top: 0;
   }
 
   form {

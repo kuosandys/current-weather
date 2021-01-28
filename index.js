@@ -1,30 +1,55 @@
+// DOM elements
 const mainDiv = document.querySelector("main");
 const userInput = document.getElementById("city");
 const form = document.querySelector("form");
+const unitsDiv = document.getElementById("units-div");
 
+// Add event listener to form submit event
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  weatherApp(userInput.value);
+  weatherApp(userInput.value, unitsDiv.className);
   userInput.textContent = "";
 });
 
+// Add event listener to units toggle
+unitsDiv.addEventListener("click", () => {
+  toggleUnits(unitsDiv.className);
+});
+
+// Load app with some sample data
+weatherApp("london", "metric");
+
 // Main function: get data then render to page
-async function weatherApp(cityName) {
+async function weatherApp(cityName, unit) {
   try {
     const data = await getWeatherData(cityName);
     const weatherObj = createWeatherObject(data);
-    renderWeatherData(weatherObj, "metric");
+    renderWeatherData(weatherObj, unit);
     setWindowTitle(cityName);
   } catch (e) {
-    console.log(e);
     setWindowTitle();
-    // displayError()
-    // console.log("couldn't find weather data for that city...");
+    displayError();
   }
 }
 
-//test
-weatherApp("london");
+// Get the weather data from OpenWeather by city name
+async function getWeatherData(cityName) {
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=8bc34d5ff8628186b68c3c4af2106ea0`
+    );
+    if (response.status == 200) {
+      const result = await response.json();
+      return result;
+    } else {
+      // throw error if response status is not 200
+      throw new Error(response.status);
+    }
+  } catch (error) {
+    // handle other types of errors (e.g. connection error)
+    throw error;
+  }
+}
 
 // Create a weather data object with only the data we need
 function createWeatherObject(weatherData) {
@@ -110,40 +135,12 @@ function createWeatherObject(weatherData) {
   };
 }
 
-// get the country flag from country code from restcountries.eu
-// async function getCountryData(countryCode) {
-//   const response = await fetch(
-//     `https://restcountries.eu/rest/v2/alpha/${countryCode}`
-//   );
-//   if (response.status == 200) {
-//     const data = await response.json();
-//     return data;
-//   }
-// }
-
-// Get the weather data from OpenWeather by city name
-async function getWeatherData(cityName) {
-  try {
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=8bc34d5ff8628186b68c3c4af2106ea0`
-    );
-    if (response.status == 200) {
-      const result = await response.json();
-      return result;
-    } else {
-      // throw error if response status is not 200
-      throw new Error(response.status);
-    }
-  } catch (error) {
-    // handle other types of errors (e.g. connection error)
-    throw error;
-  }
-}
-
 // Render the weather data on the page
 function renderWeatherData(weatherObject, units) {
   if (document.getElementById("weather-app")) {
     document.getElementById("weather-app").remove();
+  } else if (document.getElementById("error-div")) {
+    document.getElementById("error-div").remove();
   }
   // Main weather app div
   let weatherDiv = document.createElement("div");
@@ -321,4 +318,43 @@ function setWindowTitle(cityName) {
   window.document.title = cityName
     ? `Current Weather in ${cityName.toUpperCase()}`
     : `Current Weather`;
+}
+
+function displayError() {
+  if (document.getElementById("weather-app")) {
+    document.getElementById("weather-app").remove();
+  } else if (document.getElementById("error-div")) {
+    document.getElementById("error-div").remove();
+  }
+
+  let errorDiv = document.createElement("div");
+  errorDiv.id = "error-div";
+  errorDiv.innerHTML = `<span><i class="fas fa-globe-americas"></i> <i class="fas fa-question"></i></span>`;
+
+  let errorP = document.createElement("p");
+  errorP.textContent =
+    "Sorry, we couldn't find a city by that name on planet earth.";
+  errorDiv.appendChild(errorP);
+
+  mainDiv.appendChild(errorDiv);
+}
+
+function toggleUnits(currentUnits) {
+  let changeToUnits = currentUnits === "metric" ? "imperial" : "metric";
+  unitsDiv.classList.toggle(currentUnits);
+  unitsDiv.classList.toggle(changeToUnits);
+
+  let elementsToHide = Array.from(
+    document.getElementsByClassName(`${currentUnits}-element`)
+  );
+  elementsToHide.forEach((element) => {
+    element.classList.remove("show-element");
+  });
+
+  let elementsToShow = Array.from(
+    document.getElementsByClassName(`${changeToUnits}-element`)
+  );
+  elementsToShow.forEach((element) => {
+    element.classList.add("show-element");
+  });
 }
