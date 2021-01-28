@@ -1,7 +1,9 @@
 # _Current Weather_ with OpenWeather
 
-How's the weather in Osaka right now? What about Barcelona? Using OpenWeather's API, _Current Weather_ is a web application that allows users to check the current weather conditions in numerous cities around the world. This project was built to demonstrate understanding of asynchronous JavaScript programming using async/await and appropriate error handling for Promises.
+How's the weather in Osaka right now? What about Barcelona? Using [OpenWeather](https://openweathermap.org/)'s API, _Current Weather_ is a web application that allows users to check the current weather conditions in numerous cities around the world. This project was built to demonstrate understanding of asynchronous JavaScript programming using async/await and appropriate error handling for Promises.
+
 :zap: [Live Demo](https://kuosandys.github.io/current-weather/) :zap:
+
 ![screenshots of app](images/app_1.png)
 ![more screenshots of app](images/app_2.png)
 
