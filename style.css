@@ -1,3 +1,43 @@
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.3);
+  }
+}
+@keyframes fade-in-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 html {
   font-family: "Source Sans Pro", Arial, sans-serif;
   margin: 0;
@@ -73,6 +113,9 @@ form button i {
   font-size: 20px;
   color: #e2e6e9;
 }
+form button i:hover {
+  animation: pop 1s forwards;
+}
 
 #units-div {
   height: 30px;
@@ -121,6 +164,7 @@ main {
 }
 
 #weather-app {
+  animation: fade-in-pop 0.5s forwards;
   margin-top: 20px;
   border-radius: 10px;
   position: relative;
@@ -166,6 +210,7 @@ main {
   margin: -20px;
   height: 110px;
   width: 110px;
+  animation: pulse 1.5s infinite;
 }
 #weather-app #wa-description * {
   margin: 0 auto;
@@ -218,6 +263,9 @@ main {
   right: 5px;
   height: 14px;
   padding: 0;
+  opacity: 0;
+  animation: fade-in 2s forwards;
+  animation-delay: 1s;
 }
 #weather-app #wa-time p {
   font-size: 12px;
@@ -226,6 +274,7 @@ main {
 }
 
 #error-div {
+  animation: fade-in-pop 0.5s forwards;
   width: 300px;
   display: flex;
   flex-direction: column;
