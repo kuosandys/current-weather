@@ -60,10 +60,10 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 1%;
   padding-bottom: 5px;
   min-height: 100vh;
   height: auto;
+  background: transparent;
 }
 
 button {
@@ -325,20 +325,51 @@ main {
   display: initial;
 }
 
-.morning {
-  background: #000047 linear-gradient(0deg, #c8905b 0%, #70a1c2 50%);
+#backdrop {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: -10;
+  background: linear-gradient(180deg, #0e0e39 5%, #6c4983 30%, #70a1c2 60%, #c8905b 95%);
+  background-size: 100% 300%;
+  background-repeat: repeat-y;
+  transition: 1s;
 }
 
-.noon {
-  background: #000047 linear-gradient(0deg, #94a4d1 0%, #70a1c2 80%);
+@keyframes morning {
+  from {
+    background-position: 0% 30%;
+  }
+  to {
+    background-position: 0% 80%;
+  }
+}
+@keyframes night {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 0% 0%;
+  }
+}
+@keyframes afternoon {
+  from {
+    background-position: 0% 20%;
+  }
+  to {
+    background-position: 0% 50%;
+  }
+}
+.morning {
+  animation: morning 2s forwards;
 }
 
 .afternoon {
-  background: #000047 linear-gradient(180deg, #0e0e39 0%, #70a1c2 60%);
+  animation: afternoon 2s forwards;
 }
 
 .night {
-  background: #000047 linear-gradient(180deg, #0e0e39 50%, #6c4983 100%);
+  animation: night 2s forwards;
 }
 
 @media only screen and (max-width: 600px) {

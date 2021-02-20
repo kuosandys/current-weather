@@ -85,10 +85,10 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 1%;
   padding-bottom: 5px;
   min-height: 100vh;
   height: auto;
+  background: transparent;
 }
 
 // Reset button style
@@ -375,25 +375,63 @@ main {
   display: initial;
 }
 
-// Background classes
-.morning {
-  background: hsl(240, 100%, 14%)
-    linear-gradient(0deg, hsl(29, 50%, 57%) 0%, hsl(204, 40%, 60%) 50%);
+#backdrop {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: -10;
+  background: linear-gradient(
+    180deg,
+    hsl(240, 60%, 14%) 5%,
+    hsl(276, 28%, 40%) 30%,
+    hsl(204, 40%, 60%) 60%,
+    hsl(29, 50%, 57%) 95%
+  );
+  background-size: 100% 300%;
+  background-repeat: repeat-y;
+  transition: 1s;
 }
 
-.noon {
-  background: hsl(240, 100%, 14%)
-    linear-gradient(0deg, hsl(224, 40%, 70%) 0%, hsl(204, 40%, 60%) 80%);
+@keyframes morning {
+  from {
+    background-position: 0% 30%;
+  }
+  to {
+    background-position: 0% 80%;
+  }
+}
+
+@keyframes night {
+  from {
+    background-position: 0% 50%;
+  }
+
+  to {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes afternoon {
+  from {
+    background-position: 0% 20%;
+  }
+
+  to {
+    background-position: 0% 50%;
+  }
+}
+
+// Background classes
+.morning {
+  animation: morning 2s forwards;
 }
 
 .afternoon {
-  background: hsl(240, 100%, 14%)
-    linear-gradient(180deg, hsl(240, 60%, 14%) 0%, hsl(204, 40%, 60%) 60%);
+  animation: afternoon 2s forwards;
 }
 
 .night {
-  background: hsl(240, 100%, 14%)
-    linear-gradient(180deg, hsl(240, 60%, 14%) 50%, hsl(276, 28%, 40%) 100%);
+  animation: night 2s forwards;
 }
 
 // for mobile screens

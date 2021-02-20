@@ -282,17 +282,16 @@ function renderWeatherData(weatherObject, units) {
   let sunriseHour = weatherObject.sunrise.getUTCHours();
   let sunsetHour = weatherObject.sunset.getUTCHours();
   let currentHour = weatherObject.currentDateTime.getUTCHours();
-  document.body.className = "";
+  let backdrop = document.getElementById("backdrop");
+  backdrop.className = "";
   if (currentHour < sunriseHour) {
-    document.body.classList.add("night");
-  } else if (currentHour < 11) {
-    document.body.classList.add("morning");
-  } else if (currentHour < 14) {
-    document.body.classList.add("noon");
+    backdrop.classList.add("night");
+  } else if (currentHour < 12) {
+    backdrop.classList.add("morning");
   } else if (currentHour < sunsetHour) {
-    document.body.classList.add("afternoon");
+    backdrop.classList.add("afternoon");
   } else {
-    document.body.classList.add("night");
+    backdrop.classList.add("night");
   }
 }
 
